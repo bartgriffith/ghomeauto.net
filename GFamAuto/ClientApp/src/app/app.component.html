@@ -1,0 +1,48 @@
+<h1>G-Fam Home Automation</h1>
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let room of rooms">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ room }}</mat-panel-title>
+      <mat-panel-description>{{ room }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-list role="list">
+      <mat-list-item *ngFor="let device of devices | roomFilter:room">
+        <mat-slide-toggle [checked]="device.on" (change)="onToggle($event, device)" color="primary">{{ device.name }}</mat-slide-toggle>
+        <mat-slider *ngIf="device.brightness" [value]="device.brightness" max="255" min="0" step="5" (change)="onSlider($event, device)" color="primary"></mat-slider>
+        <mat-slide-toggle *ngIf="device.color !== undefined" [checked]="device.color" (change)="onColorToggle($event, device)">Color</mat-slide-toggle>
+      </mat-list-item>
+    </mat-list>
+    <section>
+      <div class="button-group-row">
+        <button mat-raised-button color="primary" (click)="allOnByRoom(room)">All On</button>
+        <button mat-raised-button color="warn" (click)="allOffByRoom(room)">All Off</button>
+      </div>
+    </section>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-divider></mat-divider>
+<section>
+  <div class="button-group-label">Flood Lights</div>
+  <div class="button-group-row">
+    <button mat-raised-button color="primary" (click)="onAllFloodsOn()">All On</button>
+    <button mat-raised-button color="warn" (click)="onAllFloodsOff()">All Off</button>
+  </div>
+</section>
+<section>
+  <div class="button-group-label">Exterior Lights</div>
+  <div class="button-group-row">
+    <button mat-raised-button color="primary" (click)="onAllExteriorOn()">All On</button>
+    <button mat-raised-button color="warn" (click)="onAllExteriorOff()">All Off</button>
+  </div>
+</section>
+<section>
+  <div class="button-group-label">Night Night</div>
+  <div class="button-group-row">
+    <button mat-raised-button color="primary" (click)="onNightNight()">Execute</button>
+  </div>
+</section>
+
+
+<router-outlet></router-outlet>
